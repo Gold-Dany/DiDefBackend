@@ -1,15 +1,12 @@
-from flask import Flask, request, jsonify
+from fastapi import FastAPI, Request
 from sentence_transformers import SentenceTransformer
 
-app = Flask(__name__)
+app = FastAPI()
 model = SentenceTransformer('all-mpnet-base-v2')
 
-@app.route('/embed', methods=['POST'])
-def embed():
-    data = request.get_json()
+@app.post('/embed')
+async def embed(request: Request):
+    data = await request.json()
     texts = data['texts']
     embeddings = model.encode(texts).tolist()
-    return jsonify({"embeddings": embeddings})
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    return {"embeddings": embeddings}
