@@ -1,2 +1,2 @@
 fastapi
-sentence_transformers[standard]
+sentence_transformers==5.1.0
